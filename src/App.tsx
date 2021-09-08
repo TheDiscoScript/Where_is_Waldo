@@ -1,20 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import "./App.css";
 import { makeStyles } from "@material-ui/core/styles";
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Waldo from "./components/Waldo";
-import Welcome from "./components/Welcome";
 import SideCheck from "./components/SideCheck";
+import Welcome from "./components/Welcome";
+import Tooltip from "./components/Tooltip";
+
+import charactersDatabase from "./utils/charactersDatabase";
 
 function App() {
   const classes = useStyles();
+  const [gameStarted, setGameStarted] = useState(false);
+  const [gameOver, setGameOver] = useState(false);
+  const [characters, setCharacters] = useState(charactersDatabase);
+  const [mouseXY, setMouseXY] = useState({ x: 0, y: 0 });
+  const [showTooltip, setShowTooltip] = useState(false);
+
   return (
     <div className={classes.theGrid}>
+      <Welcome />
+      <Tooltip />
       <Header gridName={classes.Header} />
       <SideCheck gridName={classes.SideCheck} />
-      <Welcome />
       <Waldo gridName={classes.Waldo} />
       <Footer gridName={classes.Footer} />
     </div>
