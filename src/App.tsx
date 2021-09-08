@@ -13,19 +13,52 @@ import charactersDatabase from "./utils/charactersDatabase";
 
 function App() {
   const classes = useStyles();
+  //States
   const [gameStarted, setGameStarted] = useState(false);
   const [gameOver, setGameOver] = useState(false);
   const [characters, setCharacters] = useState(charactersDatabase);
   const [mouseXY, setMouseXY] = useState({ x: 0, y: 0 });
   const [showTooltip, setShowTooltip] = useState(false);
 
+  //handle starting the game
+  const startGame = () => {
+    setGameStarted(true);
+    console.log("Game started.");
+  };
+
+  //handle clicking after game started
+  //show tooltip and get X and Y
+  const handleClick = (e: React.MouseEvent): void => {
+    displayTooltip();
+    getXandY(e);
+  };
+
+  //sets state for tooltip to render out //toogle = true ? false:true
+  const displayTooltip = () => {
+    showTooltip ? setShowTooltip(false) : setShowTooltip(true);
+  };
+
+  //gets X and Y + correction (don't ask me why)
+  const getXandY = (e: React.MouseEvent) => {
+    setMouseXY({
+      x: e.nativeEvent.offsetX + 175,
+      y: e.nativeEvent.offsetY + 220,
+    });
+    console.log(
+      "Player clicked on x: " + mouseXY.x + " and on y: " + mouseXY.y
+    );
+  };
+
+  //handle picking the character after tooltip shown
+  const handlePickingCharacter = () => {};
+
   return (
     <div className={classes.theGrid}>
-      <Welcome />
-      <Tooltip />
+      {!gameStarted && <Welcome startGame={startGame} />}
+      {showTooltip && <Tooltip mouseXY={mouseXY} characters={characters} />}
       <Header gridName={classes.Header} />
       <SideCheck gridName={classes.SideCheck} />
-      <Waldo gridName={classes.Waldo} />
+      <Waldo gridName={classes.Waldo} handleClick={handleClick} />
       <Footer gridName={classes.Footer} />
     </div>
   );

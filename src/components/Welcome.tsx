@@ -4,7 +4,11 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 
-const Welcome = () => {
+interface ModalWelcome {
+  startGame: () => void;
+}
+
+const Welcome: React.FC<ModalWelcome> = (props) => {
   const classes = useStyles();
 
   return (
@@ -22,7 +26,7 @@ const Welcome = () => {
         <Typography variant="h4" gutterBottom>
           If you are quick enough you can make it to leaderboards!
         </Typography>
-        <Button className={classes.button}>
+        <Button className={classes.button} onClick={() => props.startGame()}>
           <PlayArrowIcon className={classes.icon} />
         </Button>
       </div>
@@ -42,9 +46,7 @@ const useStyles = makeStyles(() => ({
     alignItems: "center",
     justifyContent: "center",
   },
-  theContainerNone: {
-    display: "none",
-  },
+
   welcomeDiv: {
     position: "fixed",
     zIndex: 2,

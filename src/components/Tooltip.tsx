@@ -2,15 +2,25 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 
-const Tooltip = () => {
+interface TooltipIF {
+  mouseXY: { x: number; y: number };
+  characters: any; //troubleshooting with maping over
+}
+
+const Tooltip: React.FC<TooltipIF> = (props) => {
   const classes = useStyles();
   return (
-    <div className={classes.theContainer}>
-      <div className={classes.boxRadius}>targeting box</div>
+    <div
+      className={classes.theContainer}
+      style={{ left: props.mouseXY.x, top: props.mouseXY.y }}
+    >
+      <div className={classes.boxRadius}></div>
       <div className={classes.choicesDiv}>
-        <Button>Tom</Button>
-        <Button>Yubaba</Button>
-        <Button>Neo</Button>
+        {props.characters[0].characters.map((char: any, i: any) => (
+          <Button variant="contained" className={classes.button} key={i}>
+            {char.name}
+          </Button>
+        ))}
       </div>
     </div>
   );
@@ -32,6 +42,10 @@ const useStyles = makeStyles(() => ({
   choicesDiv: {
     display: "flex",
     flexDirection: "column",
+  },
+  button: {
+    width: "60px",
+    margin: "0.1rem",
   },
 }));
 

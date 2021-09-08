@@ -3,16 +3,26 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import Background from "../images/whereiswaldo.jpg";
 
-const Waldo = (props: { gridName: string }) => {
+interface WaldoContent {
+  handleClick: (e: React.MouseEvent) => void;
+  gridName: string;
+}
+
+const Waldo: React.FC<WaldoContent> = (props) => {
   const classes = useStyles();
 
   return (
     <div className={props.gridName}>
-      <img className={classes.image} alt="Background" src={Background} />
+      <img
+        className={classes.image}
+        alt="Background"
+        src={Background}
+        onClick={(e) => props.handleClick(e)}
+      />
     </div>
   );
 };
 const useStyles = makeStyles(() => ({
-  image: { maxWidth: "100%" },
+  image: { width: "1385px", height: "5830px" },
 }));
 export default Waldo;
