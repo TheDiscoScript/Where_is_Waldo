@@ -5,6 +5,7 @@ import Button from "@material-ui/core/Button";
 interface TooltipIF {
   mouseXY: { x: number; y: number };
   characters: any; //troubleshooting with maping over
+  handlePick: (x: number, y: number, e: React.MouseEvent) => void;
 }
 
 const Tooltip: React.FC<TooltipIF> = (props) => {
@@ -17,7 +18,15 @@ const Tooltip: React.FC<TooltipIF> = (props) => {
       <div className={classes.boxRadius}></div>
       <div className={classes.choicesDiv}>
         {props.characters[0].characters.map((char: any, i: any) => (
-          <Button variant="contained" className={classes.button} key={i}>
+          <Button
+            onClick={(e) =>
+              props.handlePick(props.mouseXY.x, props.mouseXY.y, e)
+            }
+            variant="contained"
+            className={classes.button}
+            id={char.name}
+            key={i}
+          >
             {char.name}
           </Button>
         ))}
@@ -34,8 +43,8 @@ const useStyles = makeStyles(() => ({
     alignItems: "center",
   },
   boxRadius: {
-    height: "50px",
-    width: "50px",
+    height: "75px",
+    width: "75px",
     border: "white solid 3px",
     borderRadius: "3px",
   },

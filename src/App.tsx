@@ -41,21 +41,55 @@ function App() {
   //gets X and Y + correction (don't ask me why)
   const getXandY = (e: React.MouseEvent) => {
     setMouseXY({
-      x: e.nativeEvent.offsetX + 175,
-      y: e.nativeEvent.offsetY + 220,
+      x: e.nativeEvent.offsetX + 225,
+      y: e.nativeEvent.offsetY + 215,
     });
-    console.log(
-      "Player clicked on x: " + mouseXY.x + " and on y: " + mouseXY.y
-    );
+    // console.log(
+    //   "Player clicked on x: " + mouseXY.x + " and on y: " + mouseXY.y
+    // );
   };
 
   //handle picking the character after tooltip shown
-  const handlePickingCharacter = () => {};
+  //pick character -> check for match
+  const handlePlayerChoice = (x: number, y: number, e: React.MouseEvent) => {
+    pickingCharacter(x, y, e);
+    checkForMatch();
+  };
+
+  //picking character, adding X and Y and turning true for processing
+  const pickingCharacter = (x: number, y: number, e: React.MouseEvent) => {
+    const pickedName = e.currentTarget.id;
+    const databaseOfCharacters = characters[0].characters;
+    console.log("X is: " + x + " and Y is: " + y);
+    const pickedCharacter: any = databaseOfCharacters.find(
+      (char) => char.name === pickedName
+    );
+    pickedCharacter.xy.x = x;
+    pickedCharacter.xy.y = y;
+    pickedCharacter.processing = true;
+    console.log(pickedCharacter);
+    //close tooltip
+    displayTooltip();
+  };
+  const checkForMatch = () => {
+    console.log("checkForMatch fnc");
+    console.log(characters);
+    const charForProcessing = characters[0].characters.find(
+      (char) => char.processing === true
+    );
+    console.log(charForProcessing);
+  };
 
   return (
     <div className={classes.theGrid}>
       {!gameStarted && <Welcome startGame={startGame} />}
-      {showTooltip && <Tooltip mouseXY={mouseXY} characters={characters} />}
+      {showTooltip && (
+        <Tooltip
+          mouseXY={mouseXY}
+          characters={characters}
+          handlePick={handlePlayerChoice}
+        />
+      )}
       <Header gridName={classes.Header} />
       <SideCheck gridName={classes.SideCheck} />
       <Waldo gridName={classes.Waldo} handleClick={handleClick} />
@@ -66,7 +100,7 @@ function App() {
 const useStyles = makeStyles(() => ({
   theGrid: {
     display: "grid",
-    gridTemplateColumns: "1fr 7fr 0.5fr",
+    gridTemplateColumns: "200px 1500px 200px",
     gridTemplateRows: "0.3fr 7fr 0.1fr",
     gap: "0px 0px",
     gridTemplateAreas: `

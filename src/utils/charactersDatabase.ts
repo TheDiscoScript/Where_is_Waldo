@@ -6,6 +6,7 @@ interface ObjectDetails {
   name: string;
   found: boolean;
   xy: Position;
+  processing: boolean;
 }
 interface Object {
   map: string;
@@ -16,9 +17,9 @@ const database: Object[] = [
   {
     map: "First map",
     characters: [
-      { name: "Tom", found: false, xy: { x: 0, y: 0 } },
-      { name: "Yubaba", found: false, xy: { x: 0, y: 0 } },
-      { name: "Neo", found: false, xy: { x: 0, y: 0 } },
+      { name: "Tom", found: false, xy: { x: 0, y: 0 }, processing: false },
+      { name: "Yubaba", found: false, xy: { x: 0, y: 0 }, processing: false },
+      { name: "Neo", found: false, xy: { x: 0, y: 0 }, processing: false },
     ],
   },
 ];

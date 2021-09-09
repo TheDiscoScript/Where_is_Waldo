@@ -12,7 +12,7 @@ const Waldo: React.FC<WaldoContent> = (props) => {
   const classes = useStyles();
 
   return (
-    <div className={props.gridName}>
+    <div className={props.gridName + " " + classes.theDiv}>
       <img
         className={classes.image}
         alt="Background"
@@ -23,6 +23,7 @@ const Waldo: React.FC<WaldoContent> = (props) => {
   );
 };
 const useStyles = makeStyles(() => ({
+  theDiv: { textAlign: "center" },
   image: { width: "1385px", height: "5830px" },
 }));
 export default Waldo;
