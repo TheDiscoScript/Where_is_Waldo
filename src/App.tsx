@@ -10,12 +10,19 @@ import Welcome from "./components/Welcome";
 import Tooltip from "./components/Tooltip";
 
 import charactersDatabase from "./utils/charactersDatabase";
+import { firestore } from "./firebase/config";
+import { collection, getDoc, setDoc, doc } from "firebase/firestore";
+// import firebase from "firebase/app";
+// import { firebaseConfig } from "./firebase/config";
+// import { getFirestore, collection, serverTimestamp } from "firebase/firestore";
 
 function App() {
   const classes = useStyles();
   //States
   const [gameStarted, setGameStarted] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [gameOver, setGameOver] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [characters, setCharacters] = useState(charactersDatabase);
   const [mouseXY, setMouseXY] = useState({ x: 0, y: 0 });
   const [showTooltip, setShowTooltip] = useState(false);
@@ -44,9 +51,6 @@ function App() {
       x: e.nativeEvent.offsetX + 225,
       y: e.nativeEvent.offsetY + 215,
     });
-    // console.log(
-    //   "Player clicked on x: " + mouseXY.x + " and on y: " + mouseXY.y
-    // );
   };
 
   //handle picking the character after tooltip shown
@@ -67,17 +71,28 @@ function App() {
     pickedCharacter.xy.x = x;
     pickedCharacter.xy.y = y;
     pickedCharacter.processing = true;
-    console.log(pickedCharacter);
     //close tooltip
     displayTooltip();
   };
-  const checkForMatch = () => {
-    console.log("checkForMatch fnc");
-    console.log(characters);
+
+  //check if the box is on correct char
+  const checkForMatch = async () => {
     const charForProcessing = characters[0].characters.find(
       (char) => char.processing === true
     );
     console.log(charForProcessing);
+    // choice boolean - returns true if correct
+    const choiceBoolean = await calculatingMatch(charForProcessing);
+    //test
+    console.log(choiceBoolean);
+  };
+  //calculates if it's correct
+  const calculatingMatch = async (character: any) => {
+    const charRef = doc(firestore, "characters", "charactersID");
+    const docSnap = await getDoc(charRef);
+    const readable = docSnap.data();
+    console.log(readable);
+    return readable;
   };
 
   return (
