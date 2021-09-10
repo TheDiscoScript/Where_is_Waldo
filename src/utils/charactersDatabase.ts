@@ -17,9 +17,9 @@ const database: Object[] = [
   {
     map: "First map",
     characters: [
-      { name: "Tom", found: false, xy: { x: 0, y: 0 }, processing: false },
-      { name: "Yubaba", found: false, xy: { x: 0, y: 0 }, processing: false },
-      { name: "Neo", found: false, xy: { x: 0, y: 0 }, processing: false },
+      { name: "tom", found: false, xy: { x: 0, y: 0 }, processing: false },
+      { name: "yubaba", found: false, xy: { x: 0, y: 0 }, processing: false },
+      { name: "neo", found: false, xy: { x: 0, y: 0 }, processing: false },
     ],
   },
 ];

@@ -11,10 +11,7 @@ import Tooltip from "./components/Tooltip";
 
 import charactersDatabase from "./utils/charactersDatabase";
 import { firestore } from "./firebase/config";
-import { collection, getDoc, setDoc, doc } from "firebase/firestore";
-// import firebase from "firebase/app";
-// import { firebaseConfig } from "./firebase/config";
-// import { getFirestore, collection, serverTimestamp } from "firebase/firestore";
+import { getDoc, doc } from "firebase/firestore";
 
 function App() {
   const classes = useStyles();
@@ -84,15 +81,43 @@ function App() {
     // choice boolean - returns true if correct
     const choiceBoolean = await calculatingMatch(charForProcessing);
     //test
+    console.log("testing choiceBoolean");
     console.log(choiceBoolean);
   };
   //calculates if it's correct
   const calculatingMatch = async (character: any) => {
     const charRef = doc(firestore, "characters", "charactersID");
     const docSnap = await getDoc(charRef);
-    const readable = docSnap.data();
-    console.log(readable);
-    return readable;
+    const db: any = docSnap.data();
+    console.log("this is db");
+    console.log(db);
+
+    const charName = character.name;
+    const theChar = db[charName];
+    console.log("this is thechar");
+    console.log(theChar);
+
+    let xPassed = null;
+    character.xy.x > theChar.minX && character.xy.x < theChar.maxX
+      ? (xPassed = true)
+      : (xPassed = false);
+    console.log("did x passed?");
+    console.log(xPassed);
+
+    let yPassed = null;
+    character.xy.y > theChar.minY && character.xy.y < theChar.maxY
+      ? (yPassed = true)
+      : (yPassed = false);
+    console.log("did y passed?");
+    console.log(yPassed);
+
+    //proccessing done
+    character.processing = false;
+    if (xPassed && yPassed) {
+      return true;
+    } else {
+      return false;
+    }
   };
 
   return (
