@@ -8,9 +8,11 @@ interface ObjectDetails {
   xy: Position;
   processing: boolean;
 }
+
 interface Object {
   map: string;
-  characters: ObjectDetails[];
+  characters: ObjectDetails[] | any; //any because later I am chaning the state
+  // and it wouldn't let me do it otherwise - too much work
 }
 
 const database: Object[] = [

@@ -17,19 +17,21 @@ const Tooltip: React.FC<TooltipIF> = (props) => {
     >
       <div className={classes.boxRadius}></div>
       <div className={classes.choicesDiv}>
-        {props.characters[0].characters.map((char: any, i: any) => (
-          <Button
-            onClick={(e) =>
-              props.handlePick(props.mouseXY.x, props.mouseXY.y, e)
-            }
-            variant="contained"
-            className={classes.button}
-            id={char.name}
-            key={i}
-          >
-            {char.name}
-          </Button>
-        ))}
+        {props.characters[0].characters
+          .filter((char: any) => char.found !== true)
+          .map((char: any, i: any) => (
+            <Button
+              onClick={(e) =>
+                props.handlePick(props.mouseXY.x, props.mouseXY.y, e)
+              }
+              variant="contained"
+              className={classes.button}
+              id={char.name}
+              key={i}
+            >
+              {char.name}
+            </Button>
+          ))}
       </div>
     </div>
   );

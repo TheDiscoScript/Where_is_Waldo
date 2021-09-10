@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -28,6 +28,10 @@ function App() {
   const startGame = () => {
     setGameStarted(true);
     console.log("Game started.");
+    console.log("this is state characters");
+    console.log(characters);
+    console.log(characters[0]);
+    console.log(characters[0].characters);
   };
 
   //handle clicking after game started
@@ -63,7 +67,7 @@ function App() {
     const databaseOfCharacters = characters[0].characters;
     console.log("X is: " + x + " and Y is: " + y);
     const pickedCharacter: any = databaseOfCharacters.find(
-      (char) => char.name === pickedName
+      (char: any) => char.name === pickedName
     );
     pickedCharacter.xy.x = x;
     pickedCharacter.xy.y = y;
@@ -72,10 +76,10 @@ function App() {
     displayTooltip();
   };
 
-  //check if the box is on correct char
+  //check if the box is on correct char and change found
   const checkForMatch = async () => {
-    const charForProcessing = characters[0].characters.find(
-      (char) => char.processing === true
+    const charForProcessing: any = characters[0].characters.find(
+      (char: any) => char.processing === true
     );
     console.log(charForProcessing);
     // choice boolean - returns true if correct
@@ -83,6 +87,26 @@ function App() {
     //test
     console.log("testing choiceBoolean");
     console.log(choiceBoolean);
+
+    charForProcessing.processing = false;
+
+    choiceBoolean
+      ? (charForProcessing.found = true)
+      : (charForProcessing.found = false);
+
+    if (choiceBoolean) {
+      // setCharacters(
+      //   characters[0].characters.filter((char: any) => char.found !== true)
+      // );
+      const remainingChars: any = characters[0].characters.filter(
+        (char: any) => char.found !== true
+      );
+      console.log("not found characters");
+      console.log(remainingChars);
+      if (remainingChars.length === 0) {
+        setGameOver(true);
+      }
+    }
   };
   //calculates if it's correct
   const calculatingMatch = async (character: any) => {
@@ -111,14 +135,17 @@ function App() {
     console.log("did y passed?");
     console.log(yPassed);
 
-    //proccessing done
-    character.processing = false;
     if (xPassed && yPassed) {
       return true;
     } else {
       return false;
     }
   };
+
+  //check for win every update
+  useEffect(() => {
+    if (gameOver) alert("GameOver, rest#TODO");
+  }, [gameOver]);
 
   return (
     <div className={classes.theGrid}>
